@@ -1,0 +1,249 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Open Register Company Status & Financials API",
+    "description": "Search a company by name or registration number and get its legal status (active, in liquidation, bankrupt, struck off), legal form, industry code and filed financial figures (revenue, profit, assets, equity, liabilities, employees) with simple year-on-year signals, from open business-register data in selected countries: Norway, Finland, Ireland, Estonia, Latvia, Romania and Poland. Each answer says what that country's register does and does not record.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/companies/search": {
+      "get": {
+        "summary": "Find a company by name",
+        "operationId": "Search companies",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 200,
+              "description": "Company name, e.g. Equinor or airBaltic",
+              "title": "Name"
+            },
+            "description": "Company name, e.g. Equinor or airBaltic"
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional ISO country code, e.g. NO"
+          },
+          {
+            "name": "include_closed",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Also return struck-off, dissolved and merged companies",
+              "default": false,
+              "title": "Include Closed"
+            },
+            "description": "Also return struck-off, dissolved and merged companies"
+          },
+          {
+            "name": "threshold",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "description": "Minimum match score 0.5–1.0",
+              "default": 0.75,
+              "title": "Threshold"
+            },
+            "description": "Minimum match score 0.5–1.0"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Maximum results, 1–25",
+              "default": 10,
+              "title": "Limit"
+            },
+            "description": "Maximum results, 1–25"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/companies/{country}/{company_id}": {
+      "get": {
+        "summary": "Legal status, key facts and filed financial figures for one company",
+        "operationId": "Company status and financials",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Country"
+            }
+          },
+          {
+            "name": "company_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Company Id"
+            }
+          },
+          {
+            "name": "years",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "How many financial years to return, 1–10",
+              "default": 5,
+              "title": "Years"
+            },
+            "description": "How many financial years to return, 1–10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/countries": {
+      "get": {
+        "summary": "Which registers are covered and how fresh they are",
+        "operationId": "Countries covered",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://open-register-company-status-financials.p.rapidapi.com",
+      "description": "RapidAPI gateway"
+    }
+  ]
+}
