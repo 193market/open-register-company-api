@@ -2,7 +2,7 @@
 
 Company status and filed financials from open business registers: Norway, Finland, Ireland, Estonia, Latvia, Romania, Poland.
 
-**Try it (free tier, no card):** [https://rapidapi.com/193market/api/open-register-company-status-financials](https://rapidapi.com/193market/api/open-register-company-status-financials) · also on [api.market](https://api.market/store/193market/open-register-company-status-financials)
+**Try it (free tier for evaluation):** [https://rapidapi.com/193market/api/open-register-company-status-financials](https://rapidapi.com/193market/api/open-register-company-status-financials) · also on [api.market](https://api.market/store/193market/open-register-company-status-financials)
 
 Search a company by name or registration number and get its legal status (active, in liquidation, bankrupt, struck off), legal form, industry code and filed financial figures (revenue, profit, assets, equity, liabilities, employees) with simple year-on-year signals, from open business-register data in selected countries: Norway, Finland, Ireland, Estonia, Latvia, Romania and Poland. Each answer says what that country's register does and does not record.
 
@@ -90,7 +90,7 @@ The full OpenAPI 3 specification is in [`openapi.json`](openapi.json).
 | Plan | Price | Included per month |
 |---|---|---|
 | BASIC | free | a small monthly quota for evaluation |
-| PRO / ULTRA / MEGA | from $49 / month | 1,000+ requests, per-request overage, higher rate limits |
+| PRO / ULTRA / MEGA | from $49 / month | larger monthly quotas, per-request overage, higher rate limits |
 
 Current prices are always on the [RapidAPI pricing page](https://rapidapi.com/193market/api/open-register-company-status-financials/pricing). Error responses (4xx/5xx) are not charged on api.market.
 
